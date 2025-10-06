@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: ./todolistBE/todolistapi
+      dockerfile: Dockerfile
+    container_name: backend-api
+    ports:
+      - "5000:8080"
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+
+  frontend:
+    build:
+      context: ./todolistFE
+      dockerfile: Dockerfile
+    container_name: frontend-app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123!
+    ports:
+      - "1433:1433"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
