@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - namespace/apps-namespace.yaml
-  - sql/secret-sa.yaml
   - sql/sqlserver-statefulset.yaml
   - backend/backend-svc.yaml
   - backend/backend-deploy.yaml
