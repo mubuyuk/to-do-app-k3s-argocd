@@ -14,29 +14,31 @@ spec:
         app: backend-api
     spec:
       containers:
-      - name: backend
-    image: muratbuyuksal/todoapp-backend:1.0
-    imagePullPolicy: IfNotPresent
-    ports:
-      - containerPort: 8080
-    env:
-      - name: ASPNETCORE_URLS
-        value: "http://0.0.0.0:8080"
+        - name: backend
+          image: muratbuyuksal/todoapp-backend:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://0.0.0.0:8080"
 
-      - name: SA_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sql-sa-secret-runtime
-            key: SA_PASSWORD
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-sa-secret-runtime
+                  key: SA_PASSWORD
 
-      - name: ConnectionStrings__Default
-        value: "Server=sql-server;Database=TodoDb;User Id=sa;Password=$(SA_PASSWORD);TrustServerCertificate=true;"
+            - name: ConnectionStrings__Default
+              value: "Server=sql-server;Database=TodoDb;User Id=sa;Password=$(SA_PASSWORD);TrustServerCertificate=true;"
 
-    readinessProbe:
-      tcpSocket: { port: 8080 }
-      initialDelaySeconds: 10
-      periodSeconds: 5
-    livenessProbe:
-      tcpSocket: { port: 8080 }
-      initialDelaySeconds: 30
-      periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
